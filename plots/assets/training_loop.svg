@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f7f9fb"/>
+    </linearGradient>
+
+    <linearGradient id="modelFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#eef2f5"/>
+    </linearGradient>
+
+    <linearGradient id="modelSide" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4f6f8"/>
+      <stop offset="100%" stop-color="#dce2e7"/>
+    </linearGradient>
+<marker id="arrowBlue" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2,2 L16,9 L2,16" fill="none" stroke="#1687d2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2,2 L16,9 L2,16" fill="none" stroke="#35a43a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2,2 L16,9 L2,16" fill="none" stroke="#ef3225" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2,2 L16,9 L2,16" fill="none" stroke="#ffb215" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+
+    <style>
+      .label { font-family: Inter, "Helvetica Neue", Arial, sans-serif; }
+      .title { font-size:72px; font-weight:700; fill:#1f2933; }
+      .nodeText { font-size:76px; font-weight:700; text-anchor:middle; dominant-baseline:middle; }
+      .smallNodeText { font-size:60px; font-weight:700; text-anchor:middle; dominant-baseline:middle; }
+      .strokeRound { stroke-linecap:round; stroke-linejoin:round; fill:none; }
+    </style>
+  </defs>
+
+  <rect width="1536" height="1024" fill="url(#bg)"/>
+
+  <!-- DATA CLOUD -->
+  <g>
+    <path d="
+      M 168 115
+      C 205 76, 257 70, 295 92
+      C 322 49, 390 46, 424 86
+      C 441 106, 450 129, 450 151
+      C 494 153, 529 179, 544 215
+      C 561 256, 548 296, 520 323
+      C 548 356, 548 399, 523 432
+      C 507 454, 486 468, 460 476
+      C 459 520, 428 555, 389 566
+      C 351 577, 312 563, 289 536
+      C 252 548, 213 541, 185 516
+      C 163 497, 151 473, 148 447
+      C 109 433, 86 401, 86 365
+      C 86 336, 100 310, 123 293
+      C 97 262, 92 222, 112 190
+      C 124 168, 145 151, 168 145
+      C 170 133, 170 124, 168 115 Z"
+      fill="#f6fbff" stroke="#596b7a" stroke-width="7"/>
+  </g>
+
+  <!-- X node -->
+  <circle cx="256" cy="214" r="66" fill="#eaf6ff" stroke="#1687d2" stroke-width="8"/>
+  <text x="256" y="220" class="label nodeText" fill="#0e4672">X</text>
+
+  <!-- Y node -->
+  <circle cx="256" cy="377" r="66" fill="#eef9eb" stroke="#2f8e31" stroke-width="8"/>
+  <text x="256" y="383" class="label nodeText" fill="#17641a">Y</text>
+
+  <text x="140" y="625" class="label title" fill="#1f2933">Данные</text>
+
+  <!-- blue X -> model -->
+  <path d="M 323 210 C 425 160, 535 149, 631 201"
+        class="strokeRound" stroke="#1687d2" stroke-width="6" marker-end="url(#arrowBlue)"/>
+
+  <!-- MODEL -->
+  <text x="823" y="121" class="label title" fill="#1f2933" text-anchor="middle">Модель</text>
+
+  <g>
+    <!-- front -->
+    <path d="M650 198 L946 198 L946 389 L650 389 Z"
+          fill="url(#modelFront)" stroke="#29343d" stroke-width="7" stroke-linejoin="round"/>
+    <!-- top -->
+    <path d="M650 198 L726 153 L1021 153 L946 198 Z"
+          fill="#f8fafb" stroke="#29343d" stroke-width="7" stroke-linejoin="round"/>
+    <!-- side -->
+    <path d="M946 198 L1021 153 L1021 333 L946 389 Z"
+          fill="url(#modelSide)" stroke="#29343d" stroke-width="7" stroke-linejoin="round"/>
+  </g>
+
+  <!-- theta -->
+  <circle cx="798" cy="292" r="52" fill="#fff6dd" stroke="#ef9c00" stroke-width="7"/>
+  <text x="798" y="302" class="label nodeText" font-size="70" fill="#d88500">θ</text>
+
+  <!-- model -> yhat -->
+  <path d="M1037 201 C 1132 169, 1224 163, 1298 197"
+        class="strokeRound" stroke="#ef3225" stroke-width="6" marker-end="url(#arrowRed)"/>
+
+  <!-- predicted yhat node -->
+  <ellipse cx="1373" cy="203" rx="70" ry="92" fill="#fff0ee" stroke="#d93428" stroke-width="7"/>
+  <text x="1373" y="212" class="label nodeText" fill="#a91f18">Ŷ</text>
+
+  <!-- TRUE Y -> loss -->
+  <path d="M311 433 C 384 557, 478 654, 598 688"
+        class="strokeRound" stroke="#35a43a" stroke-width="6" marker-end="url(#arrowGreen)"/>
+
+  <!-- yhat -> loss -->
+  <path d="M1375 297 C 1347 434, 1247 557, 1082 660"
+        class="strokeRound" stroke="#ef3225" stroke-width="6" marker-end="url(#arrowRed)"/>
+
+  <!-- dashed gradient path from loss/model -->
+  <path d="M848 681
+           C 888 592, 996 572, 1101 537
+           C 1222 496, 1281 438, 1282 340
+           C 1283 274, 1243 239, 1178 237
+           C 1067 232, 955 261, 859 286"
+        class="strokeRound" stroke="#ffb215" stroke-width="6"
+        stroke-dasharray="22 18" marker-end="url(#arrowOrange)"/>
+
+  <!-- L at the exact requested area -->
+  <text x="846" y="650" class="label" font-size="44" font-weight="700"
+        fill="#e89600" text-anchor="middle">L</text>
+
+  <!-- LOSS SCALE -->
+  <g>
+    <!-- left tray -->
+    <path d="M594 739 Q 664 780 734 739 Z" fill="#e7ecef" stroke="#29343d" stroke-width="6" stroke-linejoin="round"/>
+    <!-- right tray -->
+    <path d="M954 728 Q 1019 769 1085 728 Z" fill="#e7ecef" stroke="#29343d" stroke-width="6" stroke-linejoin="round"/>
+
+    <!-- beam -->
+    <line x1="665" y1="813" x2="1017" y2="774" stroke="#29343d" stroke-width="18" stroke-linecap="round"/>
+    <circle cx="665" cy="813" r="10" fill="#40505c" stroke="#29343d" stroke-width="4"/>
+    <circle cx="1017" cy="774" r="10" fill="#40505c" stroke="#29343d" stroke-width="4"/>
+
+    <!-- fulcrum -->
+    <path d="M846 790 L810 840 L882 840 Z" fill="#d8dee3" stroke="#29343d" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="846" cy="790" r="13" fill="#40505c" stroke="#29343d" stroke-width="5"/>
+
+    <!-- vertical hanger stems -->
+    <line x1="665" y1="761" x2="665" y2="813" stroke="#29343d" stroke-width="6"/>
+    <line x1="1017" y1="751" x2="1017" y2="774" stroke="#29343d" stroke-width="6"/>
+  </g>
+
+  <!-- left true Y on scale -->
+  <circle cx="665" cy="693" r="53" fill="#eef9eb" stroke="#2f8e31" stroke-width="7"/>
+  <text x="665" y="700" class="label smallNodeText" fill="#17641a">Y</text>
+
+  <!-- right predicted yhat on scale -->
+  <circle cx="1017" cy="685" r="53" fill="#fff0ee" stroke="#d93428" stroke-width="7"/>
+  <text x="1017" y="692" class="label smallNodeText" fill="#a91f18">Ŷ</text>
+
+  <!-- gauge / mismatch indicator -->
+  <g stroke="#29343d" stroke-width="6" stroke-linecap="round">
+    <line x1="790" y1="713" x2="779" y2="694"/>
+    <line x1="812" y1="703" x2="806" y2="680"/>
+    <line x1="836" y1="697" x2="835" y2="673"/>
+    <line x1="861" y1="699" x2="865" y2="675"/>
+    <line x1="884" y1="707" x2="895" y2="686"/>
+    <line x1="902" y1="720" x2="918" y2="702"/>
+  </g>
+  <line x1="846" y1="783" x2="846" y2="726" stroke="#29343d" stroke-width="7" stroke-linecap="round"/>
+
+  <text x="846" y="915" class="label title" fill="#1f2933" text-anchor="middle">Потеря</text>
+</svg>

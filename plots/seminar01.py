@@ -88,18 +88,61 @@ GRAPH_EDGES = [
 
 
 def plot_bce(p):
-    fig, ax = plt.subplots(figsize=(10, 4.6), layout='constrained')
-    ax.plot(p, -np.log(p), color='#287c73', lw=2.5, label=r'$y=1:\ -\log p$')
-    ax.plot(p, -np.log(1-p), color='#bb4d5b', lw=2.5, label=r'$y=0:\ -\log(1-p)$')
-    ax.scatter([.9, .2], [-np.log(.9), -np.log(.8)],
-               color=['#287c73', '#bb4d5b'], zorder=3)
-    ax.annotate('Положительный класс, p = 0.9', (.9, -np.log(.9)),
-                xytext=(.58, 1.2), arrowprops=dict(arrowstyle='->', color='#287c73'))
-    ax.annotate('Отрицательный класс, p = 0.2', (.2, -np.log(.8)),
-                xytext=(.30, 2.0), arrowprops=dict(arrowstyle='->', color='#bb4d5b'))
-    ax.set(xlabel=r'Предсказанная вероятность $p=P(y=1\mid x)$', ylabel='Потеря одного объекта',
-           ylim=(-.05, 5.5), title='BCE: вероятность правильного класса')
-    ax.legend()
+    """Show odds, logits/sigmoid, and BCE on one compact canvas.
+
+    The first two rows follow Godoy's Chapter 3, figure2 and figure3:
+    https://github.com/dvgodoy/PyTorchStepByStep/blob/master/plots/chapter3.py
+    The final true-class-probability plot is a course adaptation.
+    """
+    p = np.asarray(p, dtype=float)
+    if p.ndim != 1 or p.size < 2 or not np.all(np.isfinite(p) & (p > 0) & (p < 1)):
+        raise ValueError('Передайте одномерную сетку вероятностей строго между 0 и 1.')
+    p = np.sort(p)
+    marks = np.array([.25, .5, .75])
+    odds = p / (1 - p)
+    mark_odds = marks / (1 - marks)
+    logits = np.log(odds)
+    mark_logits = np.log(mark_odds)
+    curve_color, mark_color = '#287c73', '#bb4d5b'
+
+    fig = plt.figure(figsize=(9.5, 6.3), dpi=100, layout='constrained')
+    grid = fig.add_gridspec(3, 2)
+    axes = [fig.add_subplot(grid[0, column]) for column in range(2)]
+    for ax in axes:
+        ax.plot(p, odds, color=curve_color, lw=2)
+        ax.scatter(marks, mark_odds, color=mark_color, zorder=3)
+        ax.set(xlabel='Вероятность класса 1, p', xticks=marks, xlim=(0, 1))
+    axes[0].set(title='1. Шансы', ylabel=r'$p/(1-p)$', ylim=(0, 10))
+    axes[1].set(yscale='log', title='1. Те же шансы: логарифмическая шкала',
+                ylabel=r'$p/(1-p)$', yticks=[1/3, 1, 3], yticklabels=['1/3', '1', '3'])
+    axes = [fig.add_subplot(grid[1, column]) for column in range(2)]
+    axes[0].plot(p, logits, color=curve_color, lw=2)
+    axes[0].scatter(marks, mark_logits, color=mark_color, zorder=3)
+    axes[0].set(title='2. Логарифм шансов', xlabel='Вероятность класса 1, p',
+                ylabel=r'$z=\log\frac{p}{1-p}$', xticks=marks, xlim=(0, 1))
+    axes[1].plot(logits, p, color=curve_color, lw=2)
+    axes[1].scatter(mark_logits, marks, color=mark_color, zorder=3)
+    axes[1].set(title='2. Обратная зависимость: сигмоида', xlabel='Логит z',
+                ylabel=r'Вероятность $p=\sigma(z)$', yticks=marks, ylim=(0, 1))
+    axes[0].axhline(0, color='#606060', ls='--', lw=1)
+    axes[1].axvline(0, color='#606060', ls='--', lw=1)
+    q = p
+    ax = fig.add_subplot(grid[2, :])
+    ax.plot(q, -np.log(q), color=curve_color, lw=2.5, label=r'$\ell=-\log q$')
+    ax.scatter([.1, .9], -np.log([.1, .9]), color=mark_color, zorder=3)
+    ax.annotate('y = 0: q = 1 - p = 0.1', (.1, -np.log(.1)), xytext=(.23, 3.2),
+                fontsize=9, arrowprops=dict(arrowstyle='->', color=mark_color))
+    ax.annotate('y = 1: q = p = 0.9', (.9, -np.log(.9)), xytext=(.53, 1.3),
+                fontsize=9, arrowprops=dict(arrowstyle='->', color=mark_color))
+    ax.set(xlabel='Вероятность, присвоенная истинному классу, q',
+           ylabel='Потеря', xlim=(0, 1), ylim=(-.05, 5),
+           title='3. Потеря: модель оценила вероятность класса 1 как p = 0.9')
+    ax.legend(loc='upper right', fontsize=9)
+    for panel in fig.axes:
+        panel.title.set_fontsize(10)
+        panel.xaxis.label.set_fontsize(9)
+        panel.yaxis.label.set_fontsize(9)
+        panel.tick_params(labelsize=8)
     plt.show()
 
 

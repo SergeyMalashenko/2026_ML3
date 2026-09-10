@@ -248,70 +248,210 @@ def plot_learning_rates(bs, ws, losses_grid, parameters_initial, analytic_gradie
     plt.show()
 
 
-def plot_graph_structure():
-    graph_positions = {
-        'x': ((0.0, 1.45), r'$x$', 'data'),
-        'w': ((0.0, .65), r'$w$', 'parameter'),
-        'b': ((1.9, -.05), r'$b$', 'parameter'),
-        'm': ((1.9, 1.05), r'$m=wx$', 'operation'),
-        'yhat': ((3.55, .75), r'$\hat y=b+m$', 'prediction'),
-        'y': ((3.55, -.2), r'$y$', 'data'),
-        'e': ((5.15, .55), r'$e=\hat y-y$', 'operation'),
-        'loss': ((6.65, .55), r'$\ell=e^2$', 'loss'),
-    }
-    fig, ax = plt.subplots(figsize=(13, 4.3), layout='constrained')
-    for _, (position, label, kind) in graph_positions.items():
-        box(ax, position, label, kind)
-    for start, end in GRAPH_EDGES:
-        arrow(ax, graph_positions[start][0], graph_positions[end][0], shrink=38)
-    ax.set(xlim=(-.6, 7.25), ylim=(-.55, 1.85),
-           title='Структура вычислительного графа')
+_GRAPH_NODES = {
+    'x': ((0, 2.9), 'x', '0.5', 'data'),
+    'w': ((0, .8), 'w', '1', 'parameter'),
+    'm': ((2, 1.8), 'm', '0.5', 'operation'),
+    'b': ((2, 3.5), 'b', '0.5', 'parameter'),
+    'yhat': ((4, 1.8), r'\hat y', '1', 'prediction'),
+    'y': ((4, .1), 'y', '2', 'data'),
+    'e': ((6, 1.8), 'e', '-1', 'operation'),
+    'loss': ((8, 1.8), r'\ell', '1', 'loss'),
+}
+
+
+def _graph_canvas(title):
+    fig, ax = plt.subplots(figsize=(10.5, 5.1), dpi=100)
+    fig.subplots_adjust(left=.06, right=.95, bottom=.26, top=.86)
+    ax.set(xlim=(-.7, 8.7), ylim=(-.7, 4.1))
     ax.axis('off')
+    fig.suptitle(title, fontsize=13)
+    return fig, ax
+
+
+def _single_graph(mode, step=0):
+    fig, ax = _graph_canvas({
+        'structure': 'Структура: какие значения зависят друг от друга?',
+        'forward': 'Прямой проход: значения остаются внутри узлов',
+        'backward': 'Обратный проход: производная потери подписана под своим узлом',
+    }[mode])
+    operations = {'m': 'wx', 'yhat': 'b+m', 'e': r'\hat y-y', 'loss': 'e^2'}
+    for start, end in GRAPH_EDGES:
+        arrow(ax, _GRAPH_NODES[start][0], _GRAPH_NODES[end][0],
+              color='#c4cbc9' if mode == 'backward' else COLORS['forward'], shrink=23)
+    node_boxes = {}
+    for name, (position, symbol, value, kind) in _GRAPH_NODES.items():
+        suffix = operations.get(name) if mode == 'structure' else value
+        box(ax, position, f'${symbol}' + (f'={suffix}$' if suffix else '$'), kind, size=11)
+        node_boxes[name] = ax.texts[-1].get_bbox_patch()
+
+    if mode != 'backward':
+        return fig
+
+    # Each entry is one reversed edge: source, recipient, local derivative, incoming gradient.
+    routes = [
+        ('loss', 'e', '2e', -2, 1),
+        ('e', 'yhat', '1', 1, -2),
+        ('yhat', 'b', '1', 1, -2),
+        ('yhat', 'm', '1', 1, -2),
+        ('m', 'w', 'x', .5, -2),
+        ('m', 'x', 'w', 1, -2),
+        ('e', 'y', '-1', -1, -2),
+    ]
+    known = {'loss': 1} if step else {}
+    for source, target, local, factor, incoming in routes[:max(0, step-1)]:
+        known[target] = incoming*factor
+    for name, (position, symbol, _, _) in _GRAPH_NODES.items():
+        result = f'{known[name]:g}' if name in known else '?'
+        ax.text(position[0], position[1]-.52,
+                rf'$\frac{{\partial\ell}}{{\partial {symbol}}}={result}$',
+                ha='center', va='center', fontsize=11,
+                color=COLORS['backward'] if name in known else '#68716f')
+    if step > 1:
+        source, target, local, factor, incoming = routes[step-2]
+        source_symbol, target_symbol = _GRAPH_NODES[source][1], _GRAPH_NODES[target][1]
+        local_value = f'{local}={factor:g}' if local not in ('1', '-1') else local
+        arrow(ax, _GRAPH_NODES[source][0], _GRAPH_NODES[target][0],
+              label=rf'$\frac{{\partial {source_symbol}}}{{\partial {target_symbol}}}={local_value}$',
+              color=COLORS['backward'], shrink=27)
+        for name in (source, target):
+            node_boxes[name].set_edgecolor(COLORS['backward'])
+            node_boxes[name].set_linewidth(2)
+        equation = (rf'$\frac{{\partial\ell}}{{\partial {target_symbol}}}='
+                    rf'\frac{{\partial\ell}}{{\partial {source_symbol}}}'
+                    rf'\cdot\frac{{\partial {source_symbol}}}{{\partial {target_symbol}}}'
+                    rf'=({incoming:g})\cdot({factor:g})={incoming*factor:g}$')
+    else:
+        equation = r'$\partial\ell/\partial\ell=1$' if step else 'С какого числа начнём у потери?'
+    questions = [
+        'Что означает производная величины по самой себе?',
+        'Квадрат: на что умножить сигнал, чтобы перейти к e?',
+        'Вычитание: какой множитель на пути к предсказанию?',
+        'Сложение: что получит параметр b?',
+        'А какой сигнал получит второе слагаемое m?',
+        'Произведение wx: на что умножить сигнал на пути к w?',
+        'А на пути к x? Какое значение прямого прохода понадобится?',
+        'Вернёмся к вычитанию: какой сигнал получит y?',
+        'Производные по x и y вычислены. Нужно ли обновлять сами данные?',
+    ]
+    fig.text(.5, .15, equation, ha='center', fontsize=13)
+    fig.text(.5, .055, questions[step], ha='center', fontsize=10)
+    return fig
+
+
+def _graph_steps(draw, last_step, step):
+    """Use native HTML radio controls: no JavaScript, widget manager, or extra dependency."""
+    if step is not None:
+        if not isinstance(step, (int, np.integer)) or not 0 <= step <= last_step:
+            raise ValueError(f'step должен быть целым числом от 0 до {last_step}.')
+        draw(step)
+        plt.show()
+        return
+
+    import base64
+    from io import BytesIO
+    from uuid import uuid4
+    from IPython.display import HTML
+
+    prefix = 'backprop-' + uuid4().hex
+    rules, controls, panels = [], [], []
+    for index in range(last_step+1):
+        identifier = f'{prefix}-{index}'
+        rules.append(f'#{identifier}:checked ~ .stage-{index} {{display:block;}}')
+        controls.append(f'<input type="radio" name="{prefix}" id="{identifier}" '
+                        f'aria-label="Шаг {index}" {"checked" if index == 0 else ""}>')
+        fig = draw(index)
+        try:
+            with BytesIO() as buffer:
+                fig.savefig(buffer, format='png', dpi=120, facecolor='white')
+                encoded = base64.b64encode(buffer.getvalue()).decode('ascii')
+        finally:
+            plt.close(fig)
+        previous = (f'<label for="{prefix}-{index-1}" title="Предыдущий шаг">&#8592; Назад</label>'
+                    if index else '<span>Начало</span>')
+        following = (f'<label for="{prefix}-{index+1}" title="Раскрыть следующий шаг">Далее &#8594;</label>'
+                     if index < last_step else '<span>Конец</span>')
+        panels.append(f'<section class="stage stage-{index}"><nav>{previous}'
+                      f'<span>Шаг {index} / {last_step}</span>{following}</nav>'
+                      f'<img alt="Вычислительный граф, шаг {index}" src="data:image/png;base64,{encoded}"></section>')
+    html = f'''<div id="{prefix}" style="max-width:1050px;background:white;color:#202124">
+    <style>
+    #{prefix} > input {{position:absolute;width:1px;height:1px;opacity:0;}}
+    #{prefix} .stage {{display:none;}}
+    #{prefix} img {{display:block;width:100%;height:auto;}}
+    #{prefix} nav {{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;}}
+    #{prefix} label {{cursor:pointer;padding:6px 12px;border:1px solid #8c9693;border-radius:4px;}}
+    #{prefix} label:hover {{background:#edf4f2;}}
+    #{prefix} > input:focus-visible ~ .stage {{outline:2px solid #287c73;}}
+    {''.join(rules)}
+    </style>{''.join(controls)}{''.join(panels)}</div>'''
+    display(HTML(html))
+
+
+def plot_graph_structure():
+    _single_graph('structure')
     plt.show()
 
 
 def plot_graph_forward():
-    forward_nodes = {
-        'x': ((0.0, 1.45), r'$x=0.5$', 'data'),
-        'w': ((0.0, .65), r'$w=1$', 'parameter'),
-        'b': ((1.9, -.05), r'$b=0.5$', 'parameter'),
-        'm': ((1.9, 1.05), r'$m=0.5$', 'operation'),
-        'yhat': ((3.55, .75), r'$\hat y=1$', 'prediction'),
-        'y': ((3.55, -.2), r'$y=2$', 'data'),
-        'e': ((5.15, .55), r'$e=-1$', 'operation'),
-        'loss': ((6.65, .55), r'$\ell=1$', 'loss'),
-    }
-    fig, ax = plt.subplots(figsize=(13, 4.3), layout='constrained')
-    for _, (position, label, kind) in forward_nodes.items():
-        box(ax, position, label, kind)
-    for start, end in GRAPH_EDGES:
-        arrow(ax, forward_nodes[start][0], forward_nodes[end][0], shrink=38)
-    ax.set(xlim=(-.6, 7.25), ylim=(-.55, 1.85), title='Прямой проход: промежуточные значения')
-    ax.axis('off')
+    _single_graph('forward')
     plt.show()
 
 
-def plot_graph_backward():
-    backward_nodes = {
-        'x': ((0.0, 1.45), r'$\bar x=-2$', 'data'),
-        'w': ((0.0, .65), r'$\bar w=-1$', 'parameter'),
-        'b': ((1.9, -.05), r'$\bar b=-2$', 'parameter'),
-        'm': ((1.9, 1.05), r'$\bar m=-2$', 'operation'),
-        'yhat': ((3.55, .75), r'$\bar{\hat y}=-2$', 'prediction'),
-        'y': ((3.55, -.2), r'$\bar y=2$', 'data'),
-        'e': ((5.15, .55), r'$\bar e=2e=-2$', 'operation'),
-        'loss': ((6.65, .55), r'$\bar\ell=1$', 'loss'),
+def plot_graph_backward(step=None):
+    """Reveal one backward step at a time; step=0..8 also works without HTML controls."""
+    return _graph_steps(lambda index: _single_graph('backward', index), 8, step)
+
+
+def _batch_graph(step):
+    fig, ax = _graph_canvas('Два объекта: к общему параметру возвращаются два вклада')
+    positions = {'w': (0, 1.8), 'l1': (4, 3.2), 'l2': (4, .5), 'L': (8, 1.8)}
+    edges = [('w', 'l1'), ('w', 'l2'), ('l1', 'L'), ('l2', 'L')]
+    labels = {'w': '$w=1$', 'l1': r'$\ell_1=(b+wx_1-y_1)^2=1$',
+              'l2': r'$\ell_2=(b+wx_2-y_2)^2=0.25$', 'L': r'$L=(\ell_1+\ell_2)/2=0.625$'}
+    for start, end in edges:
+        arrow(ax, positions[start], positions[end], color='#c4cbc9', shrink=40)
+    for name, position in positions.items():
+        box(ax, position, labels[name], 'parameter' if name == 'w' else 'loss', size=10)
+    fig.text(.5, .87, r'$b=0.5$ фиксирован; $(x_1,y_1)=(0.5,2)$; $(x_2,y_2)=(1,1)$',
+             ha='center', fontsize=11)
+    routes = [('L', 'l1', r'$\partial L/\partial\ell_1=1/2$'),
+              ('L', 'l2', r'$\partial L/\partial\ell_2=1/2$'),
+              ('l1', 'w', r'$\partial\ell_1/\partial w=2e_1x_1=-1$'),
+              ('l2', 'w', r'$\partial\ell_2/\partial w=2e_2x_2=1$')]
+    for index, (source, target, label) in enumerate(routes, start=2):
+        if step >= index:
+            arrow(ax, positions[source], positions[target], label=label,
+                  color=COLORS['backward'] if step == index else '#777777', shrink=45)
+    values = {
+        'L': r'$\partial L/\partial L=1$' if step >= 1 else r'$\partial L/\partial L=?$',
+        'l1': r'$\partial L/\partial\ell_1=0.5$' if step >= 2 else r'$\partial L/\partial\ell_1=?$',
+        'l2': r'$\partial L/\partial\ell_2=0.5$' if step >= 3 else r'$\partial L/\partial\ell_2=?$',
+        'w': (r'$\partial L/\partial w=-0.5+0.5=0$' if step >= 5 else
+              'Первый вклад: -0.5\nВторой пока не учтён' if step == 4 else r'$\partial L/\partial w=?$'),
     }
-    fig, ax = plt.subplots(figsize=(13, 4.3), layout='constrained')
-    for _, (position, label, kind) in backward_nodes.items():
-        box(ax, position, label, kind)
-    for start, end in GRAPH_EDGES:
-        arrow(ax, backward_nodes[end][0], backward_nodes[start][0],
-              color=COLORS['backward'], shrink=42)
-    ax.set(xlim=(-.6, 7.25), ylim=(-.55, 1.85),
-           title=r'Обратный проход: $\bar v=\partial\ell/\partial v$')
-    ax.axis('off')
-    plt.show()
+    for name, label in values.items():
+        ax.text(positions[name][0], positions[name][1]-.58, label, ha='center', va='center',
+                fontsize=10, color=COLORS['backward'])
+    equations = ['Сначала назовите оба пути от w к L.', r'$\partial L/\partial L=1$',
+                 r'$\partial L/\partial\ell_1=1\cdot\frac{1}{2}=0.5$',
+                 r'$\partial L/\partial\ell_2=1\cdot\frac{1}{2}=0.5$',
+                 r'$\mathrm{Первый\ вклад}:\quad 0.5\cdot(-1)=-0.5$',
+                 r'$\frac{\partial L}{\partial w}=\frac{1}{2}\frac{\partial\ell_1}{\partial w}'
+                 r'+\frac{1}{2}\frac{\partial\ell_2}{\partial w}=-0.5+0.5=0$']
+    questions = ['Что получит каждая ветвь при обратном проходе через среднее?',
+                 'На что умножим единицу на пути к первой потере?',
+                 'Что получит вторая потеря?', 'Какой вклад вернётся к w из первой ветви?',
+                 'Можно ли уже назвать полный градиент? Что добавит вторая ветвь?',
+                 'Нулевой общий градиент: означает ли это, что обе ошибки нулевые?']
+    fig.text(.5, .15, equations[step], ha='center', fontsize=12)
+    fig.text(.5, .055, questions[step], ha='center', fontsize=10)
+    return fig
+
+
+def plot_batch_graph(step=None):
+    """Reveal accumulation for two independent examples; step=0..5 is static."""
+    return _graph_steps(_batch_graph, 5, step)
 
 
 def plot_batch_contributions(x_train, per_item_b, per_item_w, order):

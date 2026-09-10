@@ -21,12 +21,18 @@ COLORS = {
 
 
 def configure_plots():
+    from matplotlib_inline.backend_inline import set_matplotlib_formats
+
+    # Double raster resolution without doubling the notebook display size.
+    set_matplotlib_formats("retina")
     plt.rcParams.update(
         {
-            "font.size": 12,
-            "figure.figsize": (9, 4.5),
-            "figure.dpi": 140,
-            "savefig.dpi": 180,
+            "font.size": 10,
+            "axes.titlesize": 11,
+            "legend.fontsize": 9,
+            "figure.figsize": (7.5, 4.2),
+            "figure.dpi": 100,
+            "savefig.dpi": "figure",
             "axes.grid": True,
             "grid.alpha": 0.22,
         }
@@ -147,7 +153,7 @@ def plot_bce(p):
 
 
 def plot_outlier_influence(outlier_distance, mse_optimum, mae_optimum, mse_influence, mae_influence):
-    fig, axes = plt.subplots(1, 2, figsize=(13, 4.8), layout='constrained')
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.2), layout='constrained')
 
     axes[0].loglog(outlier_distance, mse_optimum, color='#bb4d5b', lw=2.5,
                    label='Минимум MSE: среднее')
@@ -173,7 +179,7 @@ def plot_outlier_influence(outlier_distance, mse_optimum, mae_optimum, mse_influ
 
 
 def plot_data(x_train, y_train, x_validation, y_validation, true_b, true_w):
-    fig, ax = plt.subplots(figsize=(9, 4.8), layout='constrained')
+    fig, ax = plt.subplots(figsize=(7.5, 4.2), layout='constrained')
     ax.scatter(x_train, y_train, s=24, color='#287c73', label='Обучение')
     ax.scatter(x_validation, y_validation, s=30, marker='x', color='#bb4d5b', label='Проверка')
     grid = np.linspace(0, 1, 100)
@@ -184,7 +190,7 @@ def plot_data(x_train, y_train, x_validation, y_validation, true_b, true_w):
 
 
 def plot_initial_model(x_train, y_train, true_b, true_w, parameters_initial, predict_numpy, loss_initial):
-    fig, ax = plt.subplots(figsize=(9, 4.8), layout='constrained')
+    fig, ax = plt.subplots(figsize=(7.5, 4.2), layout='constrained')
     ax.scatter(x_train, y_train, s=24, color='#287c73', label='Обучение')
     grid = np.linspace(0, 1, 100)
     ax.plot(grid, true_b+true_w*grid, '--', color='#202124', lw=2, label='Исходная зависимость')
@@ -196,7 +202,7 @@ def plot_initial_model(x_train, y_train, true_b, true_w, parameters_initial, pre
 
 
 def plot_loss_landscape(bs, ws, losses_grid, parameters_initial, optimal_parameters, b_range, w_range, loss_by_b, loss_by_w, b_initial, w_initial):
-    fig, axes = plt.subplots(1, 3, figsize=(15, 4.6), layout='constrained')
+    fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.8), layout='constrained')
     contours = axes[0].contour(bs, ws, losses_grid, levels=14, cmap='viridis')
     axes[0].clabel(contours, fontsize=8)
     axes[0].scatter(*parameters_initial, color='#bb4d5b', s=50, label='Начальная точка')
@@ -217,7 +223,7 @@ def plot_loss_landscape(bs, ws, losses_grid, parameters_initial, optimal_paramet
 
 
 def plot_difference_error(steps, forward_errors, central_errors):
-    fig, ax = plt.subplots(figsize=(9, 4.6), layout='constrained')
+    fig, ax = plt.subplots(figsize=(7.5, 4.2), layout='constrained')
     ax.loglog(steps, np.maximum(forward_errors, 1e-16), 'o-', color='#287c73', label='Правая разность')
     ax.loglog(steps, np.maximum(central_errors, 1e-16), 'o-', color='#bb4d5b', label='Центральная разность')
     ax.set(xlabel='h', ylabel=r'$\|g_{числ}-g_{аналит}\|_2$',
@@ -227,7 +233,7 @@ def plot_difference_error(steps, forward_errors, central_errors):
 
 
 def plot_learning_rates(bs, ws, losses_grid, parameters_initial, analytic_gradient, shown_rates, learning_rates, loss_after_step, loss_initial, mse_numpy):
-    fig, axes = plt.subplots(1, 2, figsize=(13, 4.8), layout='constrained')
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.2), layout='constrained')
     contours = axes[0].contour(bs, ws, losses_grid, levels=16, cmap='viridis')
     axes[0].scatter(*parameters_initial, color='#202124', s=45, zorder=4)
     for lr, color in zip(shown_rates, ['#287c73', '#d08c00', '#bb4d5b']):
@@ -363,7 +369,7 @@ def _graph_steps(draw, last_step, step):
         fig = draw(index)
         try:
             with BytesIO() as buffer:
-                fig.savefig(buffer, format='png', dpi=120, facecolor='white')
+                fig.savefig(buffer, format='png', dpi=200, facecolor='white')
                 encoded = base64.b64encode(buffer.getvalue()).decode('ascii')
         finally:
             plt.close(fig)
@@ -455,7 +461,7 @@ def plot_batch_graph(step=None):
 
 
 def plot_batch_contributions(x_train, per_item_b, per_item_w, order):
-    fig, axes = plt.subplots(1, 2, figsize=(13, 4.5), layout='constrained')
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.2), layout='constrained')
     axes[0].bar(np.arange(x_train.size), per_item_b[order], color='#287c73')
     axes[0].axhline(per_item_b.mean(), color='#bb4d5b', lw=2,
                     label=f'Среднее = {per_item_b.mean():.3f}')
@@ -473,7 +479,7 @@ def plot_batch_contributions(x_train, per_item_b, per_item_w, order):
 
 
 def plot_bce_gradient(p_grid):
-    fig, ax = plt.subplots(figsize=(10, 4.6), layout='constrained')
+    fig, ax = plt.subplots(figsize=(7.5, 4.2), layout='constrained')
     ax.plot(p_grid, p_grid-1, color='#287c73', lw=2.5, label=r'$y=1:\ p-y$')
     ax.plot(p_grid, p_grid, color='#bb4d5b', lw=2.5, label=r'$y=0:\ p-y$')
     ax.axhline(0, color='#202124', lw=1)
@@ -485,7 +491,7 @@ def plot_bce_gradient(p_grid):
 
 
 def plot_update(x_train, y_train, true_b, true_w, parameters_initial, parameters_updated, predict_numpy, loss_initial, loss_updated):
-    fig, ax = plt.subplots(figsize=(9, 4.8), layout='constrained')
+    fig, ax = plt.subplots(figsize=(7.5, 4.2), layout='constrained')
     ax.scatter(x_train, y_train, s=22, color='#287c73', label='Обучение')
     grid = np.linspace(0, 1, 100)
     ax.plot(grid, predict_numpy(grid, parameters_initial), color='#bb4d5b', lw=2,
@@ -499,7 +505,7 @@ def plot_update(x_train, y_train, true_b, true_w, parameters_initial, parameters
 
 
 def plot_grades(total_points, five, six):
-    fig, ax = plt.subplots(figsize=(10, 4.8), layout="constrained")
+    fig, ax = plt.subplots(figsize=(7.5, 4.2), layout="constrained")
     ax.step(total_points, five, where="mid", label="5 домашних заданий", color=COLORS["forward"])
     ax.step(total_points, six, where="mid", label="6 домашних заданий", color=COLORS["backward"])
     ax.axhline(3, color=COLORS["text"], ls="--", label="Порог зачёта")

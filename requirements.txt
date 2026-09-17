@@ -6,3 +6,5 @@ torchvision>=0.17
 jupyterlab>=4
 ipykernel>=6
 requests>=2.31
+torchviz>=0.0.3
+graphviz>=0.21

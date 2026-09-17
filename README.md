@@ -26,7 +26,7 @@
 | № | Дата | Тема | Материалы |
 |---:|:---:|---|---|
 | 1 | 11.09.2026 | Нейронные сети и обратное распространение ошибки | [Ноутбук](notebooks/01_backprop/seminar01_backprop.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/01_backprop/seminar01_backprop.ipynb) |
-| 2 | 18.09.2026 | Обучение нейронных сетей, часть 1 / Домашнее задание 1 | [Ноутбук](notebooks/02_pytorch/seminar02_pytorch.ipynb) |
+| 2 | 18.09.2026 | Обучение нейронных сетей, часть 1 / Домашнее задание 1 | [Ноутбук](notebooks/02_pytorch/seminar02_pytorch.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/02_pytorch/seminar02_pytorch.ipynb) |
 | 3 | 25.09.2026 | Обучение нейронных сетей, часть 2 | Будут добавлены |
 | 4 | 02.10.2026 | Свёрточные нейронные сети, часть 1 / Домашнее задание 2 | Будут добавлены |
 | 5 | 09.10.2026 | Свёрточные нейронные сети, часть 2 | Будут добавлены |

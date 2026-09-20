@@ -20,3 +20,13 @@ Thumbs.db
 # Student solutions
 solutions/
 private/
+
+# Local course QA and unreleased answers
+.course_helpers/
+output/
+**/*_filled.ipynb
+**/*-key*.md
+**/*-key*.tex
+**/*-grading.json
+notebooks/02_pytorch/handout/classroom-publication.md
+notebooks/02_pytorch/quiz-draft.md

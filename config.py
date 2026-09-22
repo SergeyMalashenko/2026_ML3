@@ -47,6 +47,7 @@ SEMINAR_FILES = {
         "plots/assets/training_loop.svg",
     ),
     2: ("plots/__init__.py", "plots/seminar02.py"),
+    3: ("plots/__init__.py", "plots/seminar03.py"),
 }
 
 
@@ -144,3 +145,50 @@ def config_seminar02(branch=DEFAULT_BRANCH):
         if name == "plots" or name.startswith("plots."):
             del sys.modules[name]
     return import_module("plots.seminar02")
+
+
+def config_seminar03(branch=DEFAULT_BRANCH):
+    """Load Chapter 2 helpers; activate only a complete, validated download."""
+    root = Path(__file__).resolve().parent
+    if IS_COLAB:
+        import hashlib
+        import tempfile
+        from importlib.util import find_spec
+
+        if find_spec("tensorboard") is None:
+            import subprocess
+            subprocess.run([sys.executable, "-m", "pip", "install",
+                            "tensorboard>=2.16"], check=True)
+        payload = {}
+        for name in SEMINAR_FILES[3]:
+            url = f"https://raw.githubusercontent.com/{GITHUB_REPOSITORY}/{branch}/{name}"
+            with urlopen(url, timeout=30) as response:
+                payload[name] = response.read()
+            compile(payload[name], name, "exec")
+        digest = hashlib.sha256()
+        for name, content in sorted(payload.items()):
+            digest.update(name.encode() + b"\0" + content + b"\0")
+        cache = root / ".course_helpers"
+        cache.mkdir(exist_ok=True)
+        version = cache / digest.hexdigest()
+        if not version.exists():
+            with tempfile.TemporaryDirectory(dir=cache) as temporary:
+                staged = Path(temporary) / "ready"
+                for name, content in payload.items():
+                    destination = staged / name
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    destination.write_bytes(content)
+                staged.rename(version)
+        for name, content in payload.items():
+            if (version / name).read_bytes() != content:
+                raise RuntimeError("Повреждён кеш модулей курса; удалите .course_helpers и повторите запуск.")
+        root = version
+    root_path = str(root)
+    if root_path in sys.path:
+        sys.path.remove(root_path)
+    sys.path.insert(0, root_path)
+    invalidate_caches()
+    for name in list(sys.modules):
+        if name == "plots" or name.startswith("plots."):
+            del sys.modules[name]
+    return import_module("plots.seminar03")

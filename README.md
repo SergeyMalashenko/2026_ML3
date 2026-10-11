@@ -29,7 +29,7 @@
 | 2 | 18.09.2026 | Обучение нейронных сетей, часть 1 / Домашнее задание 1 | [Ноутбук](notebooks/02_pytorch/seminar02_pytorch.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/02_pytorch/seminar02_pytorch.ipynb) |
 | 3 | 25.09.2026 | Обучение нейронных сетей, часть 2 | [Ноутбук](notebooks/03_neuralnetwork/seminar03_neuralnetwork.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/03_neuralnetwork/seminar03_neuralnetwork.ipynb) |
 | 4 | 02.10.2026 | Свёрточные нейронные сети, часть 1 / Домашнее задание 2 | [Ноутбук](notebooks/04_convolutions/seminar04_convolutions.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/04_convolutions/seminar04_convolutions.ipynb) |
-| 5 | 09.10.2026 | Свёрточные нейронные сети, часть 2 | Будут добавлены |
+| 5 | 09.10.2026 | Свёрточные нейронные сети, часть 2 | [Ноутбук](notebooks/05_convolutions_2/seminar05_cnn.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/05_convolutions_2/seminar05_cnn.ipynb) |
 | 6 | 16.10.2026 | Задача детекции объектов / Домашнее задание 3 | Будут добавлены |
 | 7 | 23.10.2026 | Задача сегментации изображений | Будут добавлены |
 | 8 | 30.10.2026 | Рекуррентные сети / Домашнее задание 4 | Будут добавлены |

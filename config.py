@@ -50,6 +50,12 @@ SEMINAR_FILES = {
     3: ("plots/__init__.py", "plots/seminar03.py"),
     4: ("plots/__init__.py", "plots/seminar04.py",
         "plots/assets/seminar04-volleyball.jpeg"),
+    8: ("plots/__init__.py", "plots/seminar08.py", "plots/_godoy08.py", "plots/_godoy08_replay.py",
+        *(f"plots/assets/godoy08/{name}.png" for name in (
+            "rnn1", "rnn2", "rnn_cell_diagram", "rnn_cell_diagram_seq",
+            "stacked_rnn", "bidirect_rnn", "gru_cell", "lstm_cell",
+            "packed_seq_inddata", "packed_seq_data", "conv1_ma", "conv1d",
+            "conv1d_dilated", "conv1d_edges"))),
 }
 
 
@@ -237,3 +243,54 @@ def config_seminar04(branch=DEFAULT_BRANCH):
         if name == "plots" or name.startswith("plots."):
             del sys.modules[name]
     return import_module("plots.seminar04")
+
+
+def config_seminar08(branch=DEFAULT_BRANCH):
+    """Activate a complete versioned bundle, following seminar 04's bootstrap."""
+    root = Path(__file__).resolve().parent
+    if IS_COLAB:
+        import hashlib
+        import tempfile
+
+        payload = {}
+        for name in SEMINAR_FILES[8]:
+            url = f"https://raw.githubusercontent.com/{GITHUB_REPOSITORY}/{branch}/{name}"
+            with urlopen(url, timeout=30) as response:
+                payload[name] = response.read()
+            if name.endswith('.py'):
+                compile(payload[name], name, "exec")
+            elif name.endswith('.png'):
+                from io import BytesIO
+                from PIL import Image
+
+                with Image.open(BytesIO(payload[name])) as image:
+                    if image.format != 'PNG':
+                        raise ValueError(f"Expected PNG: {name}")
+                    image.verify()
+        digest = hashlib.sha256()
+        for name, content in sorted(payload.items()):
+            digest.update(name.encode() + b"\0" + content + b"\0")
+        cache = root / ".course_helpers"
+        cache.mkdir(exist_ok=True)
+        version = cache / digest.hexdigest()
+        if not version.exists():
+            with tempfile.TemporaryDirectory(dir=cache) as temporary:
+                staged = Path(temporary) / "ready"
+                for name, content in payload.items():
+                    destination = staged / name
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    destination.write_bytes(content)
+                staged.rename(version)
+        for name, content in payload.items():
+            if (version / name).read_bytes() != content:
+                raise RuntimeError("Повреждён кеш модулей курса; удалите .course_helpers и повторите запуск.")
+        root = version
+    root_path = str(root)
+    if root_path in sys.path:
+        sys.path.remove(root_path)
+    sys.path.insert(0, root_path)
+    invalidate_caches()
+    for name in list(sys.modules):
+        if name == "plots" or name.startswith("plots."):
+            del sys.modules[name]
+    return import_module("plots.seminar08")

@@ -30,8 +30,8 @@
 | 3 | 25.09.2026 | Обучение нейронных сетей, часть 2 | [Ноутбук](notebooks/03_neuralnetwork/seminar03_neuralnetwork.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/03_neuralnetwork/seminar03_neuralnetwork.ipynb) |
 | 4 | 02.10.2026 | Свёрточные нейронные сети, часть 1 / Домашнее задание 2 | [Ноутбук](notebooks/04_convolutions/seminar04_convolutions.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/04_convolutions/seminar04_convolutions.ipynb) |
 | 5 | 09.10.2026 | Свёрточные нейронные сети, часть 2 | [Ноутбук](notebooks/05_convolutions_2/seminar05_cnn.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/05_convolutions_2/seminar05_cnn.ipynb) |
-| 6 | 16.10.2026 | Задача детекции объектов / Домашнее задание 3 | Будут добавлены |
-| 7 | 23.10.2026 | Задача сегментации изображений | Будут добавлены |
+| 6 | 16.10.2026 | Задача детекции объектов / Домашнее задание 3 | [SSD](notebooks/06_ssd/seminar06_ssd.ipynb) · [Colab SSD](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/06_ssd/seminar06_ssd.ipynb) · [YOLO](notebooks/06_ssd/seminar06_yolo.ipynb) · [Colab YOLO](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/06_ssd/seminar06_yolo.ipynb) |
+| 7 | 23.10.2026 | Задача сегментации изображений | [Ноутбук](notebooks/07_unet/seminar07_segmentation.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/07_unet/seminar07_segmentation.ipynb) |
 | 8 | 30.10.2026 | Рекуррентные сети / Домашнее задание 4 | [Ноутбук](notebooks/08_crnn/seminar08_crnn.ipynb) · [Colab](https://colab.research.google.com/github/SergeyMalashenko/2026_ML3/blob/main/notebooks/08_crnn/seminar08_crnn.ipynb) |
 | 9 | 06.11.2026 | Механизм внимания. Модель «энкодер — декодер» | Будут добавлены |
 | 10 | 13.11.2026 | Модель «трансформер», часть 1 / Домашняя работа 5 | Будут добавлены |

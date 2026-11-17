@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="660" height="246.41" viewBox="0 0 626.122321 233.75952" version="1.1">
+ <title>Повороты одной и той же пары q и k для трёх пар позиций</title><metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 233.75952  L 626.122321 233.75952  L 626.122321 -0  L 0 -0  z " style="fill: #ffffff" />
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 97.061161 210.411207  C 116.610036 210.411207 135.360873 202.644357 149.184015 188.821214  C 163.007158 174.998071 170.774009 156.247235 170.774009 136.698359  C 170.774009 117.149484 163.007158 98.398647 149.184015 84.575505  C 135.360873 70.752362 116.610036 62.985511 97.061161 62.985511  C 77.512285 62.985511 58.761449 70.752362 44.938306 84.575505  C 31.115163 98.398647 23.348313 117.149484 23.348313 136.698359  C 23.348313 156.247235 31.115163 174.998071 44.938306 188.821214  C 58.761449 202.644357 77.512285 210.411207 97.061161 210.411207  z " clip-path="url(#p3503c87538)" style="fill: #ffffff; stroke: #d7dfe1; stroke-width: 1.4; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_3">
+    <path d="M 21.660934 136.698359  Q 97.060069 136.698359 172.459204 136.698359  " clip-path="url(#p3503c87538)" style="fill: none; stroke: #d7dfe1; stroke-width: 0.8; stroke-linecap: round" />
+   </g>
+   <g id="patch_4">
+    <path d="M 97.061161 212.098586  Q 97.061161 136.699451 97.061161 61.300316  " clip-path="url(#p3503c87538)" style="fill: none; stroke: #d7dfe1; stroke-width: 0.8; stroke-linecap: round" />
+   </g>
+   <g id="patch_5">
+    <path d="M 74.607148 146.974608  C 77.080688 152.379391 81.424381 156.713483 86.834625 159.175057  C 92.244869 161.636631 98.366098 162.063911 104.065859 160.377848  " clip-path="url(#p3503c87538)" style="fill: none; stroke: #356497; stroke-width: 2; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_6">
+    <path d="M 97.627355 138.612386  Q 106.99302 170.273159 115.534111 199.146446  " clip-path="url(#p3503c87538)" style="fill: none; stroke: #00756c; stroke-width: 2.6; stroke-linecap: round" />
+    <path d="M 116.943871 191.221007  L 115.534111 199.146446  L 110.039616 193.263375  z " clip-path="url(#p3503c87538)" style="fill: #00756c; stroke: #00756c; stroke-width: 2.6; stroke-linecap: round" />
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #00756c" x="119.852567" y="217.122005" transform="rotate(-0 119.852567 217.122005)">q</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 95.24619 137.528995  Q 65.223945 151.268902 37.844926 163.799116  " clip-path="url(#p3503c87538)" style="fill: none; stroke: #a44d0b; stroke-width: 2.6; stroke-linecap: round" />
+    <path d="M 45.889997 164.07633  L 37.844926 163.799116  L 42.893739 157.529388  z " clip-path="url(#p3503c87538)" style="fill: #a44d0b; stroke: #a44d0b; stroke-width: 2.6; stroke-linecap: round" />
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a44d0b" x="24.001836" y="173.511972" transform="rotate(-0 24.001836 173.511972)">k</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #193249" x="97.061161" y="43.717199" transform="rotate(-0 97.061161 43.717199)">Запрос 5 · ключ 2</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_8">
+    <path d="M 313.061161 210.411207  C 332.610036 210.411207 351.360873 202.644357 365.184015 188.821214  C 379.007158 174.998071 386.774009 156.247235 386.774009 136.698359  C 386.774009 117.149484 379.007158 98.398647 365.184015 84.575505  C 351.360873 70.752362 332.610036 62.985511 313.061161 62.985511  C 293.512285 62.985511 274.761449 70.752362 260.938306 84.575505  C 247.115163 98.398647 239.348313 117.149484 239.348313 136.698359  C 239.348313 156.247235 247.115163 174.998071 260.938306 188.821214  C 274.761449 202.644357 293.512285 210.411207 313.061161 210.411207  z " clip-path="url(#p929184b115)" style="fill: #ffffff; stroke: #d7dfe1; stroke-width: 1.4; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_9">
+    <path d="M 237.660934 136.698359  Q 313.060069 136.698359 388.459204 136.698359  " clip-path="url(#p929184b115)" style="fill: none; stroke: #d7dfe1; stroke-width: 0.8; stroke-linecap: round" />
+   </g>
+   <g id="patch_10">
+    <path d="M 313.061161 212.098586  Q 313.061161 136.699451 313.061161 61.300316  " clip-path="url(#p929184b115)" style="fill: none; stroke: #d7dfe1; stroke-width: 0.8; stroke-linecap: round" />
+   </g>
+   <g id="patch_11">
+    <path d="M 302.884387 159.197632  C 308.300065 161.647227 314.422225 162.060961 320.118241 160.362289  C 325.814257 158.663618 330.709783 154.964179 333.899125 149.948386  " clip-path="url(#p929184b115)" style="fill: none; stroke: #356497; stroke-width: 2; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_12">
+    <path d="M 314.745506 137.769367  Q 342.607005 155.485378 368.015516 171.641632  " clip-path="url(#p929184b115)" style="fill: none; stroke: #00756c; stroke-width: 2.6; stroke-linecap: round" />
+    <path d="M 363.87143 164.740432  L 368.015516 171.641632  L 360.008105 170.816181  z " clip-path="url(#p929184b115)" style="fill: #00756c; stroke: #00756c; stroke-width: 2.6; stroke-linecap: round" />
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #00756c" x="380.862298" y="183.187339" transform="rotate(-0 380.862298 183.187339)">q</text>
+   </g>
+   <g id="patch_13">
+    <path d="M 312.238566 138.516989  Q 298.631663 168.599748 286.222742 196.033953  " clip-path="url(#p929184b115)" style="fill: none; stroke: #a44d0b; stroke-width: 2.6; stroke-linecap: round" />
+    <path d="M 292.470064 190.957442  L 286.222742 196.033953  L 285.909926 187.990189  z " clip-path="url(#p929184b115)" style="fill: #a44d0b; stroke: #a44d0b; stroke-width: 2.6; stroke-linecap: round" />
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a44d0b" x="279.948675" y="213.282407" transform="rotate(-0 279.948675 213.282407)">k</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #193249" x="313.061161" y="43.717199" transform="rotate(-0 313.061161 43.717199)">Запрос 12 · ключ 9</text>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_14">
+    <path d="M 529.061161 210.411207  C 548.610036 210.411207 567.360873 202.644357 581.184015 188.821214  C 595.007158 174.998071 602.774009 156.247235 602.774009 136.698359  C 602.774009 117.149484 595.007158 98.398647 581.184015 84.575505  C 567.360873 70.752362 548.610036 62.985511 529.061161 62.985511  C 509.512285 62.985511 490.761449 70.752362 476.938306 84.575505  C 463.115163 98.398647 455.348313 117.149484 455.348313 136.698359  C 455.348313 156.247235 463.115163 174.998071 476.938306 188.821214  C 490.761449 202.644357 509.512285 210.411207 529.061161 210.411207  z " clip-path="url(#pf92753f658)" style="fill: #ffffff; stroke: #d7dfe1; stroke-width: 1.4; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_15">
+    <path d="M 453.660934 136.698359  Q 529.060069 136.698359 604.459204 136.698359  " clip-path="url(#pf92753f658)" style="fill: none; stroke: #d7dfe1; stroke-width: 0.8; stroke-linecap: round" />
+   </g>
+   <g id="patch_16">
+    <path d="M 529.061161 212.098586  Q 529.061161 136.699451 529.061161 61.300316  " clip-path="url(#pf92753f658)" style="fill: none; stroke: #d7dfe1; stroke-width: 0.8; stroke-linecap: round" />
+   </g>
+   <g id="patch_17">
+    <path d="M 504.630142 140.291309  C 505.363017 145.274648 507.603361 149.916437 511.04895 153.590494  C 514.494538 157.264551 518.98314 159.797888 523.909239 160.848756  C 528.835339 161.899624 533.966995 161.418544 538.611946 159.470414  C 543.256897 157.522283 547.196439 154.198829 549.899125 149.948386  " clip-path="url(#pf92753f658)" style="fill: none; stroke: #356497; stroke-width: 2; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_18">
+    <path d="M 530.745506 137.769367  Q 558.607005 155.485378 584.015516 171.641632  " clip-path="url(#pf92753f658)" style="fill: none; stroke: #00756c; stroke-width: 2.6; stroke-linecap: round" />
+    <path d="M 579.87143 164.740432  L 584.015516 171.641632  L 576.008105 170.816181  z " clip-path="url(#pf92753f658)" style="fill: #00756c; stroke: #00756c; stroke-width: 2.6; stroke-linecap: round" />
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #00756c" x="596.862298" y="183.187339" transform="rotate(-0 596.862298 183.187339)">q</text>
+   </g>
+   <g id="patch_19">
+    <path d="M 527.086387 136.98878  Q 494.420777 141.79275 464.631121 146.173767  " clip-path="url(#pf92753f658)" style="fill: none; stroke: #a44d0b; stroke-width: 2.6; stroke-linecap: round" />
+    <path d="M 472.2783 148.687857  L 464.631121 146.173767  L 471.2307 141.564477  z " clip-path="url(#pf92753f658)" style="fill: #a44d0b; stroke: #a44d0b; stroke-width: 2.6; stroke-linecap: round" />
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a44d0b" x="449.569189" y="151.766312" transform="rotate(-0 449.569189 151.766312)">k</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #193249" x="529.061161" y="43.717199" transform="rotate(-0 529.061161 43.717199)">Запрос 12 · ключ 8</text>
+   </g>
+  </g>
+  <g id="text_10">
+   <text style="font-weight: 700; font-size: 17px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #193249" x="313.061161" y="22.996016" transform="rotate(-0 313.061161 22.996016)">На каких рисунках угол между q и k одинаков?</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3503c87538">
+   <rect x="10.08" y="49.717199" width="173.962321" height="173.962321" />
+  </clipPath>
+  <clipPath id="p929184b115">
+   <rect x="226.08" y="49.717199" width="173.962321" height="173.962321" />
+  </clipPath>
+  <clipPath id="pf92753f658">
+   <rect x="442.08" y="49.717199" width="173.962321" height="173.962321" />
+  </clipPath>
+ </defs>
+</svg>
